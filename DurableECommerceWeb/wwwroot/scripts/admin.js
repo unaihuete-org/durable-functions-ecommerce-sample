@@ -1,4 +1,5 @@
-﻿const baseUrl = 'http://localhost:7071/api'
+﻿// const baseUrl = 'http://localhost:7071/api'
+const baseUrl = 'https://durablefunctionunai-fa.azurewebsites.net/api'
 var postData = (url, data) => {
     return fetch(url,
         {

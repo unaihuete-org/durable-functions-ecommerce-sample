@@ -1,4 +1,5 @@
-﻿const baseUrl = 'http://localhost:7071/api'
+﻿// const baseUrl = 'http://localhost:7071/api'
+const baseUrl = 'https://durablefunctionunai-fa.azurewebsites.net/api'
 // get a query string parameter https://stackoverflow.com/a/901144/7532
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
