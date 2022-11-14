@@ -14,6 +14,7 @@ In this sample application, when an order webhook is received (by the `NewPurcha
 - Azure Function
     - Deployed manually and publishe using GitHub Actions
     - CORS need to allow the address of website for JS calls.
+    - TODO: commented sendgrid functions, CANNOT GET FREE SUBSCRIPTION :(
     
 ### Local Application Settings
 
