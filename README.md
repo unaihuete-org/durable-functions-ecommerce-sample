@@ -7,7 +7,14 @@ In this sample application, when an order webhook is received (by the `NewPurcha
 - Then in parallel it creates a 'PDF' (actually just text file) for each item ordered in a blob storage account and generates SAS tokens to download them. 
 - Finally, it sends out an email to the purchaser containing the download SAS tokens.
     - (note you need your own SendGrid API key to actually send emails)
-
+## DEPLOYED UNAI
+- Deployed static website to Azure Static WebApp
+    - Create Static WebApp manually and use GitHub Action to deploy folder/files to it.
+    - Modify the JS files to point to the correct Azure Functions URL (include "/api)
+- Azure Function
+    - Deployed manually and publishe using GitHub Actions
+    - CORS need to allow the address of website for JS calls.
+    
 ### Local Application Settings
 
 To run the application locally, you'll need to set up your `local.settings.json` file, which is not checked into source control. An example is shown below:
