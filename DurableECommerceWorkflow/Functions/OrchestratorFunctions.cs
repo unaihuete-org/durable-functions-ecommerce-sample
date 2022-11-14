@@ -59,12 +59,17 @@ public static class OrchestratorFunctions
             }
 
             downloads = await Task.WhenAll(tasks);
+            //DELETE WHEN SENDGRID WORKING
+            return new OrderResult { Status = "Success", Downloads = downloads };
 
         }
         catch (Exception ex)
         {
             if (!ctx.IsReplaying)
                 log.LogError($"Failed to create files", ex);
+
+            //DELETE WHEN SENDGRID WORKING
+            return new OrderResult { Status = "Problem" };
         }
 
         // if (downloads != null)
@@ -78,6 +83,9 @@ public static class OrchestratorFunctions
         //     new RetryOptions(TimeSpan.FromSeconds(30), 3),
         //     order);
         // return new OrderResult { Status = "Problem" };
+
+        
+
     }
 
 }
