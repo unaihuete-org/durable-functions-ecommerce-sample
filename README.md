@@ -11,10 +11,13 @@ In this sample application, when an order webhook is received (by the `NewPurcha
 - Deployed static website to Azure Static WebApp
     - Create Static WebApp manually and use GitHub Action to deploy folder/files to it.
     - Modify the JS files to point to the correct Azure Functions URL (include "/api)
+    - MANAGE PAGE NON EXISTENT
+        - Approve using POST call to function from POSTMAN
 - Azure Function
     - Deployed manually and publishe using GitHub Actions
     - CORS need to allow the address of website for JS calls.
     - TODO: commented sendgrid functions, CANNOT GET FREE SUBSCRIPTION :(
+
     
 ### Local Application Settings
 
