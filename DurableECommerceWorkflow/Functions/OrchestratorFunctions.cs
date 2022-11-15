@@ -26,27 +26,27 @@ public static class OrchestratorFunctions
 
         await ctx.CallActivityAsync("A_SaveOrderToDatabase", order);
 
-        // if (total > 1000)
-        // {
-        //     if (!ctx.IsReplaying)
-        //         log.LogWarning($"Need approval for {ctx.InstanceId}");
+        if (total > 1000)
+        {
+            if (!ctx.IsReplaying)
+                log.LogWarning($"Need approval for {ctx.InstanceId}");
 
-        //     ctx.SetCustomStatus("Needs approval");
-        //     await ctx.CallActivityAsync("A_RequestOrderApproval", order);
+            ctx.SetCustomStatus("Needs approval");
+            await ctx.CallActivityAsync("A_RequestOrderApproval", order);
 
-        //     var approvalResult = await ctx.WaitForExternalEvent<string>("OrderApprovalResult", TimeSpan.FromSeconds(180), null);
-        //     ctx.SetCustomStatus(""); // clear the needs approval flag
+            var approvalResult = await ctx.WaitForExternalEvent<string>("OrderApprovalResult", TimeSpan.FromSeconds(180), null);
+            ctx.SetCustomStatus(""); // clear the needs approval flag
 
-        //     if (approvalResult != "Approved")
-        //     {
-        //         // timed out or got a rejected
-        //         if (!ctx.IsReplaying)
-        //             log.LogWarning($"Not approved [{approvalResult}]");
-        //         await ctx.CallActivityAsync("A_SendNotApprovedEmail", order);
-        //         return new OrderResult { Status = "NotApproved" };
-        //     }
+            if (approvalResult != "Approved")
+            {
+                // timed out or got a rejected
+                if (!ctx.IsReplaying)
+                    log.LogWarning($"Not approved [{approvalResult}]");
+                await ctx.CallActivityAsync("A_SendNotApprovedEmail", order);
+                return new OrderResult { Status = "NotApproved" };
+            }
 
-        // }
+        }
 
         string[] downloads = null;
         try
@@ -60,7 +60,7 @@ public static class OrchestratorFunctions
 
             downloads = await Task.WhenAll(tasks);
             //DELETE WHEN SENDGRID WORKING
-            return new OrderResult { Status = "Success", Downloads = downloads };
+//             return new OrderResult { Status = "Success", Downloads = downloads };
 
         }
         catch (Exception ex)
@@ -72,17 +72,17 @@ public static class OrchestratorFunctions
             return new OrderResult { Status = "Problem" };
         }
 
-        // if (downloads != null)
-        // {
-        //     await ctx.CallActivityWithRetryAsync("A_SendOrderConfirmationEmail",
-        //         new RetryOptions(TimeSpan.FromSeconds(30), 3),
-        //         (order, downloads));
-        //     return new OrderResult { Status = "Success", Downloads = downloads };
-        // }
-        // await ctx.CallActivityWithRetryAsync("A_SendProblemEmail",
-        //     new RetryOptions(TimeSpan.FromSeconds(30), 3),
-        //     order);
-        // return new OrderResult { Status = "Problem" };
+        if (downloads != null)
+        {
+            await ctx.CallActivityWithRetryAsync("A_SendOrderConfirmationEmail",
+                new RetryOptions(TimeSpan.FromSeconds(30), 3),
+                (order, downloads));
+            return new OrderResult { Status = "Success", Downloads = downloads };
+        }
+        await ctx.CallActivityWithRetryAsync("A_SendProblemEmail",
+            new RetryOptions(TimeSpan.FromSeconds(30), 3),
+            order);
+        return new OrderResult { Status = "Problem" };
 
         
 
